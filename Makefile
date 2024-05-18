@@ -1,9 +1,28 @@
-stoi:
-	as --64 stoi.S -o bin/stoi.o && \
-	ld bin/stoi.o -o bin/stoi && \
-	./bin/stoi
+AS = as
+LD = ld
+ASFLAGS = --64
+BINDIR = bin
 
-example:
-	as --64 example.S -o bin/example.o && \
-	ld bin/example.o -o bin/example && \
-	./bin/example
+TARGETS = stoi itos example
+
+.PHONY: all clean $(TARGETS)
+
+all: $(TARGETS)
+
+$(BINDIR)/%: $(BINDIR)/%.o
+	$(LD) $< -o $@
+
+$(BINDIR)/%.o: %.S
+	$(AS) $(ASFLAGS) $< -o $@
+
+stoi: $(BINDIR)/stoi
+	./$(BINDIR)/stoi
+
+itos: $(BINDIR)/itos
+	./$(BINDIR)/itos
+
+example: $(BINDIR)/example
+	./$(BINDIR)/example
+
+clean:
+	rm -f $(BINDIR)/*.o $(BINDIR)/stoi $(BINDIR)/itos $(BINDIR)/example

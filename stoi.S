@@ -1,16 +1,9 @@
 .data
 number:
-.ascii "1591"
-expected:
-.word 1591
+.byte 0
+.ascii "66785608"
 end:
 .byte 0
-msk_ok:
-.ascii "ok\n"
-len_ok = . - msk_ok
-msk_fail:
-.ascii "ok\n"
-len_fail = . - msk_fail
 
 .text
 .globl _start
@@ -41,27 +34,18 @@ lo:
     jmp lo 
 
 output:
-    cmp $expected, %r10
-    je print_ok
-    jmp print_fail
+    cmp $66785608, %r10
+    je ok
+    jmp fail
 
-print_ok:
-    mov $1, %rax
-    mov $1, %rdi
-    mov $msk_ok, %rsi
-    mov $len_ok, %rdx
-    syscall
-
+ok:
+	mov $0, %r10
     jmp exit_program
 
-print_fail:
-    mov $1, %rax
-    mov $1, %rdi
-    mov $msk_fail, %rsi
-    mov $len_fail, %rdx
-    syscall
+fail:
+	mov $1, %r10
 
 exit_program:
     mov $60, %rax
-    xor %rdi, %rdi
+    mov %r10, %rdi
     syscall
