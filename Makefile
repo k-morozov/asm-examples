@@ -1,9 +1,9 @@
 AS = as
 LD = ld
-ASFLAGS = --64
+ASFLAGS = --64 
 BINDIR = bin
 
-TARGETS = stoi itos example
+TARGETS = stoi itos stack
 
 .PHONY: all clean $(TARGETS)
 
@@ -21,8 +21,8 @@ stoi: $(BINDIR)/stoi
 itos: $(BINDIR)/itos
 	./$(BINDIR)/itos
 
-example: $(BINDIR)/example
-	./$(BINDIR)/example
+stack: $(BINDIR)/stack
+	./$(BINDIR)/stack
 
 clean:
-	rm -f $(BINDIR)/*.o $(BINDIR)/stoi $(BINDIR)/itos $(BINDIR)/example
+	rm -f $(BINDIR)/*.o $(BINDIR)/stoi $(BINDIR)/itos $(BINDIR)/stack
